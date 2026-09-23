@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view ,permission_classes
 from rest_framework import status,generics
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from .pagination import StandardResultsSetPagination
 
 
 
@@ -15,12 +16,22 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['GET'])
 def get_books(request):
     books = Book.objects.all()
-    serializer = BookSerializer(books, many = True)
-    return Response(serializer.data)
+
+    paginator = StandardResultsSetPagination()
+    page = paginator.paginate_queryset(books, request)
+
+    serializer = BookSerializer(page, many=True)
+
+    return paginator.get_paginated_response(serializer.data)
+
+
 @api_view(['Get'])
 def get_book(request,id):
+
     book =Book.objects.get(id = id)
+
     serializer = BookSerializer(book,many = False)
+
     return Response(serializer.data)
 
 
@@ -29,9 +40,12 @@ def get_book(request,id):
 def create_book(request):
     
     serializer = BookSerializer(data = request.data)
+
     if serializer.is_valid():
         data = serializer.validated_data
+
         book=Book.objects.create(
+            
             title = data['title'],
             isbn = data['isbn'],
             description = data['description'],
