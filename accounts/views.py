@@ -6,10 +6,12 @@ from rest_framework import status,generics
 from .models import User
 from .serializer import SignUpSerializer
 from django.contrib.auth.hashers import make_password
+from django_ratelimit.decorators import ratelimit
 
 # Create your views here.
 
 @api_view(['POST'])
+@ratelimit(key='ip', rate='5/m',method='POST',block=True)
 def register(request):
    
     serializer = SignUpSerializer(data = request.data)
