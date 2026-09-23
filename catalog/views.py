@@ -36,7 +36,7 @@ def get_book(request,id):
 
 
 @api_view(['POST'])
-@permission_classes(IsAuthenticated)
+@permission_classes([IsAuthenticated])
 def create_book(request):
     
     serializer = BookSerializer(data = request.data)
@@ -60,7 +60,7 @@ def create_book(request):
 
  
 @api_view(['DELETE'])
-@permission_classes(IsAuthenticated)
+@permission_classes([IsAuthenticated])
 def delete_book(request,id):
        book =get_object_or_404(Book,id = id)
 
@@ -71,7 +71,7 @@ def delete_book(request,id):
 
 
 @api_view(['PUT'])
-@permission_classes(IsAuthenticated)
+@permission_classes([IsAuthenticated])
 def update_book(request,id):
     book = get_object_or_404(Book,id = id)
     serializer = BookSerializer(book,data = request.data)   
