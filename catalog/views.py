@@ -15,7 +15,7 @@ from .pagination import StandardResultsSetPagination
 
 @api_view(['GET'])
 def get_books(request):
-    books = Book.objects.all()
+    books = Book.objects.all().order_by("id")
 
     paginator = StandardResultsSetPagination()
     page = paginator.paginate_queryset(books, request)
@@ -56,7 +56,7 @@ def create_book(request):
         serializer = BookSerializer(book)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     else:
-        return Response(serializer.errors)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
  
 @api_view(['DELETE'])
@@ -86,5 +86,5 @@ def update_book(request,id):
         book.genres.set(data['genres'])
         return Response({"details":"book has been updated"},status=status.HTTP_200_OK)
     else:
-        return Response(serializer.errors)                    
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)                    
 
