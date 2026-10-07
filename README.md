@@ -493,14 +493,14 @@ The AI provider layer is designed so that AI functionality can be separated from
 Planned improvements include:
 
 * [ ] PostgreSQL
-* [ ] Docker
+* [x] Docker
 * [ ] API documentation with Swagger/OpenAPI
 * [ ] Production deployment
 * [ ] GitHub Actions / CI
 * [ ] React frontend
 * [ ] Improved AI caching
-* [ ] More comprehensive automated tests
 * [ ] Production security configuration
+* [ ] More comprehensive automated tests
 
 ---
 
